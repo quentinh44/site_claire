@@ -208,7 +208,8 @@ li {
 }
 
 .s {
-    padding: 56px 0
+    padding-top: 56px;
+    padding-bottom: 56px
 }
 
 .alt {
@@ -287,4 +288,162 @@ footer {
 footer a {
     color: var(--fx);
     margin-right: 20px
+}
+
+/* ===== Mobile ===== */
+html {
+    -webkit-text-size-adjust: 100%
+}
+
+body {
+    overflow-wrap: break-word
+}
+
+img {
+    max-width: 100%
+}
+
+.burger {
+    display: none;
+    background: none;
+    border: 2px solid var(--ac);
+    color: var(--ac);
+    border-radius: 12px;
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer
+}
+
+.sticky {
+    display: none
+}
+
+.g2 {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr))
+}
+
+@media(max-width:760px) {
+    .w {
+        padding: 0 20px
+    }
+
+    .s {
+        padding-top: 40px;
+        padding-bottom: 40px
+    }
+
+    .nav {
+        padding: 14px 0
+    }
+
+    .burger {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center
+    }
+
+    .js .menu {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0
+    }
+
+    .js .menu.open {
+        display: flex
+    }
+
+    .menu a {
+        padding: 14px 4px;
+        border-bottom: 1px solid var(--bd)
+    }
+
+    .menu a.btn {
+        margin-top: 12px;
+        text-align: center;
+        border: 2px solid var(--ac);
+        padding: 14px
+    }
+
+    .g,
+    .g2 {
+        grid-template-columns: 1fr !important;
+        gap: 16px
+    }
+
+    .lead {
+        font-size: 18px
+    }
+
+    .card {
+        padding: 20px
+    }
+
+    .ph {
+        min-height: 220px !important
+    }
+
+    .btn {
+        min-height: 48px;
+        padding: 13px 22px
+    }
+
+    .row>.btn {
+        flex: 1 1 100%;
+        text-align: center
+    }
+
+    #bd .btn,
+    #bh .btn {
+        flex: 1 1 30%;
+        padding: 12px 6px;
+        font-size: 15px
+    }
+
+    #bs .btn {
+        text-align: left
+    }
+
+    input,
+    textarea {
+        font-size: 16px;
+        padding: 14px
+    }
+
+    summary {
+        padding: 6px 0
+    }
+
+    footer a {
+        display: inline-block;
+        padding: 8px 0
+    }
+
+    .sticky {
+        display: block;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 10;
+        padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+        background: var(--bg);
+        border-top: 1px solid var(--bd)
+    }
+
+    .sticky .btn {
+        display: block;
+        text-align: center
+    }
+
+    body:has(.sticky) {
+        padding-bottom: 84px
+    }
+
+    form .btn {
+        width: 100%
+    }
 }

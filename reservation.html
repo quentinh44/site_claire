@@ -1,18 +1,73 @@
 <!doctype html>
-<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Réserver un créneau | [NOM DE MARQUE]</title><meta name="description" content="Réservez en ligne un appel découverte ou une séance d’accompagnement post-partum.">
-<meta name="robots" content="noindex"><!-- À retirer à la mise en ligne (voir README) -->
-<meta property="og:title" content="Réserver un créneau | [NOM DE MARQUE]"><meta property="og:description" content="Réservez en ligne un appel découverte ou une séance d’accompagnement post-partum."><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🌙%3C/text%3E%3C/svg%3E">
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css"></head><body>
-<div class="w"><div class="nav"><a href="index.html" style="text-decoration:none"><b>[NOM DE MARQUE]</b></a><div><a href="index.html">Accueil</a><a href="qui-suis-je.html">Qui suis-je ?</a><a href="services.html">Services et tarifs</a><a href="temoignages.html">Témoignages</a><a href="faq.html">FAQ</a><a href="contact.html">Contact</a><a class="btn" href="reservation.html">Réserver</a></div></div></div>
-<main>
-<div class="w s col" style="gap:32px"><h1>Réserver un créneau</h1><p class="lead">Trois étapes, puis vous recevez une confirmation.</p><p class="note">[Version de démonstration : les demandes ne sont pas encore envoyées ni enregistrées.]</p>
-<div class="g" style="align-items:start;grid-template-columns:repeat(auto-fit,minmax(320px,1fr))">
-<div class="card col" style="gap:24px"><div><h3>1. Votre séance</h3><div class="row" id="bs" style="margin-top:12px"></div></div><div><h3>2. Un jour</h3><div class="row" id="bd" style="margin-top:12px"></div></div><div><h3>3. Une heure</h3><div class="row" id="bh" style="margin-top:12px"></div></div></div>
-<form class="card" id="fr" novalidate><h3 style="margin-bottom:16px">Vos informations</h3><label for="p">Prénom</label><input id="p" autocomplete="given-name"><label for="e">E-mail</label><input id="e" type="email" autocomplete="email"><label for="m">Un mot sur votre situation (facultatif)</label><textarea id="m" rows="3"></textarea><p style="margin-bottom:16px"><b id="rc"></b></p><button class="btn" type="submit">Confirmer ma demande</button><p class="ok" id="rm" role="status" style="margin-top:14px"></p></form></div></div>
-</main>
-<footer><div class="w"><b>[NOM DE MARQUE]</b><div style="margin-top:16px"><a href="mentions-legales.html">Mentions légales</a><a href="mentions-legales.html">CGV</a><a href="mentions-legales.html">Confidentialité</a><a href="contact.html">Contact</a></div></div></footer>
-<script src="assets/app.js" defer></script>
-</body></html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Réserver un créneau | [NOM DE MARQUE]</title>
+    <meta name="description"
+        content="Réservez en ligne un appel découverte ou une séance d’accompagnement post-partum.">
+    <meta name="robots" content="noindex"><!-- À retirer à la mise en ligne (voir README) -->
+    <meta property="og:title" content="Réserver un créneau | [NOM DE MARQUE]">
+    <meta property="og:description"
+        content="Réservez en ligne un appel découverte ou une séance d’accompagnement post-partum.">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="fr_FR">
+    <link rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🌙%3C/text%3E%3C/svg%3E">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+
+<body>
+    <div class="w">
+        <div class="nav"><a href="index.html" style="text-decoration:none"><b>[NOM DE MARQUE]</b></a>
+            <div><a href="index.html">Accueil</a><a href="qui-suis-je.html">Qui suis-je ?</a><a
+                    href="services.html">Services et tarifs</a><a href="temoignages.html">Témoignages</a><a
+                    href="faq.html">FAQ</a><a href="contact.html">Contact</a><a class="btn"
+                    href="reservation.html">Réserver</a></div>
+        </div>
+    </div>
+    <main>
+        <div class="w s col" style="gap:32px">
+            <h1>Réserver un créneau</h1>
+            <p class="lead">Trois étapes, puis vous recevez une confirmation.</p>
+            <p class="note">[Version de démonstration : les demandes ne sont pas encore envoyées ni enregistrées.]</p>
+            <div class="g" style="align-items:start;grid-template-columns:repeat(auto-fit,minmax(320px,1fr))">
+                <div class="card col" style="gap:24px">
+                    <div>
+                        <h3>1. Votre séance</h3>
+                        <div class="row" id="bs" style="margin-top:12px"></div>
+                    </div>
+                    <div>
+                        <h3>2. Un jour</h3>
+                        <div class="row" id="bd" style="margin-top:12px"></div>
+                    </div>
+                    <div>
+                        <h3>3. Une heure</h3>
+                        <div class="row" id="bh" style="margin-top:12px"></div>
+                    </div>
+                </div>
+                <form class="card" id="fr" novalidate>
+                    <h3 style="margin-bottom:16px">Vos informations</h3><label for="p">Prénom</label><input id="p"
+                        autocomplete="given-name"><label for="e">E-mail</label><input id="e" type="email"
+                        autocomplete="email"><label for="m">Un mot sur votre situation (facultatif)</label><textarea
+                        id="m" rows="3"></textarea>
+                    <p style="margin-bottom:16px"><b id="rc"></b></p><button class="btn" type="submit">Confirmer ma
+                        demande</button>
+                    <p class="ok" id="rm" role="status" style="margin-top:14px"></p>
+                </form>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="w"><b>[NOM DE MARQUE]</b>
+            <div style="margin-top:16px"><a href="mentions-legales.html">Mentions légales</a><a
+                    href="mentions-legales.html">CGV</a><a href="mentions-legales.html">Confidentialité</a><a
+                    href="contact.html">Contact</a></div>
+        </div>
+    </footer>
+    <script src="assets/app.js" defer></script>
+</body>
+
+</html>

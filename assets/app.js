@@ -1,19 +1,15 @@
 // Réservation et contact : VERSION DE DÉMONSTRATION, rien n’est envoyé.
 // Pour de vraies réservations, remplacer le bloc de la page reservation.html par le widget Cal.com (voir README).
 if (document.getElementById("fr")) {
-  var SV = [
-      ["Appel découverte", "15 min · gratuit"],
+  var SV = [   
       ["Séance d’accompagnement", "[DURÉE] · [PRIX] €"],
       ["Forfait de suivi", "[X] semaines · [PRIX] €"],
       ["Nuits à domicile", "sur demande"],
     ],
-    HR = ["9h00", "10h30", "14h00", "16h00", "18h30"],
-    st = { s: 0, d: null, h: null },
-    DS = [];
-  for (var i = 1; DS.length < 10; i++) {
-    var d = new Date();
-    d.setDate(d.getDate() + i);
-    if (d.getDay()) DS.push(d);
+        HR = [],
+    st = { s: 0, d: "", h: "" };
+  for (var m = 8 * 60; m <= 19 * 60; m += 30) {
+    HR.push(Math.floor(m / 60) + "h" + String(m % 60).padStart(2, "0"));
   }
   function bt(id, items, k, f) {
     document.getElementById(id).innerHTML = items
@@ -36,29 +32,49 @@ if (document.getElementById("fr")) {
     bt("bs", SV, "s", function (x) {
       return x[0] + " <small>(" + x[1] + ")</small>";
     });
-    bt("bd", DS, "d", function (d) {
-      return d.toLocaleDateString("fr-FR", {
-        weekday: "short",
-        day: "numeric",
-        month: "short",
-      });
-    });
-    bt("bh", HR, "h", function (x) {
-      return x;
-    });
     document.getElementById("rc").textContent =
       SV[st.s][0] +
-      (st.d !== null
+      (st.d
         ? " · " +
-          DS[st.d].toLocaleDateString("fr-FR", {
+          new Date(st.d + "T12:00:00").toLocaleDateString("fr-FR", {
             weekday: "long",
             day: "numeric",
             month: "long",
           })
         : "") +
-      (st.h !== null ? " à " + HR[st.h] : "");
+            (st.h ? " à " + st.h : "");
   }
   draw();
+      var bheure = document.getElementById("bheure");
+  bheure.innerHTML =
+    '<option value="">Choisir une heure</option>' +
+    HR.map(function (h) {
+      return '<option value="' + h + '">' + h + "</option>";
+    }).join("");
+  bheure.addEventListener("change", function () {
+    st.h = bheure.value;
+    draw();
+  });
+  var bdate = document.getElementById("bdate");
+  function isoJour(x) {
+    return x.getFullYear() + "-" + String(x.getMonth() + 1).padStart(2, "0") + "-" + String(x.getDate()).padStart(2, "0");
+  }
+  var dMin = new Date(), dMax = new Date();
+  dMin.setDate(dMin.getDate() + 1);
+  dMax.setDate(dMax.getDate() + 60);
+  bdate.min = isoJour(dMin);
+  bdate.max = isoJour(dMax);
+  bdate.addEventListener("change", function () {
+    var v = bdate.value, n = document.getElementById("bdn"), fermes = typeof JOURS_FERMES !== "undefined" ? JOURS_FERMES : [0];
+    n.textContent = "";
+    if (v && fermes.indexOf(new Date(v + "T12:00:00").getDay()) > -1) {
+      n.textContent = "Ce jour n’est pas proposé, merci d’en choisir un autre.";
+      bdate.value = "";
+      v = "";
+    }
+    st.d = v;
+    draw();
+  });
   document.addEventListener("click", function (e) {
     var b = e.target.closest("[data-k]");
     if (b) {
@@ -69,7 +85,7 @@ if (document.getElementById("fr")) {
   document.getElementById("fr").addEventListener("submit", function (e) {
     e.preventDefault();
     var m = document.getElementById("rm");
-    if (st.d === null || st.h === null) {
+            if (!st.d || !st.h) {
       m.textContent = "Choisissez un jour et une heure.";
       return;
     }
@@ -106,7 +122,10 @@ if (document.getElementById("fc")) {
 // ===== Bandeau « appel découverte » et pop-up =====
 // À FAIRE : créer une clé gratuite sur https://web3forms.com (elle arrive par e-mail), puis la coller ci-dessous.
 var WEB3FORMS_KEY = "VOTRE_CLE_WEB3FORMS";
-var CRENEAUX = ["9h00", "10h30", "14h00", "16h00", "18h30"]; // heures proposées
+var CRENEAUX = []; // heures proposées : de 8h00 à 18h30, par pas de 30 minutes
+for (var mn = 8 * 60; mn <= 19 * 60; mn += 30) {
+  CRENEAUX.push(Math.floor(mn / 60) + "h" + String(mn % 60).padStart(2, "0"));
+}
 var JOURS_FERMES = [0]; // jours non proposés : 0 = dimanche, 6 = samedi
 (function () {
   var ban = document.getElementById("bandeau");
@@ -124,7 +143,7 @@ var JOURS_FERMES = [0]; // jours non proposés : 0 = dimanche, 6 = samedi
     '<label for="aph">Téléphone *</label><input id="aph" type="tel" inputmode="tel" autocomplete="tel">' +
     '<label for="ae">E-mail *</label><input id="ae" type="email" autocomplete="email">' +
     '<label for="ad">Jour souhaité *</label><input id="ad" type="date">' +
-    '<fieldset><legend>Heure souhaitée *</legend><div class="row" id="ah"></div></fieldset>' +
+        '<label for="ah">Heure souhaitée *</label><select id="ah" style="margin-bottom:16px"></select>' +
     '<label for="ac">Commentaire (facultatif)</label><textarea id="ac" rows="3"></textarea>' +
     '<label class="cons"><input type="checkbox" id="ak"><span>J’accepte que ces informations servent à me recontacter. <a href="mentions-legales.html">Politique de confidentialité</a></span></label>' +
     '<input type="checkbox" id="abot" tabindex="-1" autocomplete="off" style="display:none">' +
@@ -134,15 +153,11 @@ var JOURS_FERMES = [0]; // jours non proposés : 0 = dimanche, 6 = samedi
   var $ = function (id) {
     return document.getElementById(id);
   };
-  $("ah").innerHTML = CRENEAUX.map(function (h) {
-    return (
-      '<label class="chip"><input type="radio" name="heure" value="' +
-      h +
-      '"><span>' +
-      h +
-      "</span></label>"
-    );
-  }).join("");
+    $("ah").innerHTML =
+    '<option value="">Choisir une heure</option>' +
+    CRENEAUX.map(function (h) {
+      return '<option value="' + h + '">' + h + "</option>";
+    }).join("");
   function iso(x) {
     return (
       x.getFullYear() +
@@ -189,7 +204,7 @@ var JOURS_FERMES = [0]; // jours non proposés : 0 = dimanche, 6 = samedi
       },
       err = $("aerr"),
       btn = $("asub"),
-      h = f.querySelector("input[name=heure]:checked");
+      h = $("ah").value;
     function fin() {
       $("av").hidden = true;
       $("ao").hidden = false;
@@ -248,7 +263,7 @@ var JOURS_FERMES = [0]; // jours non proposés : 0 = dimanche, 6 = samedi
         year: "numeric",
       }) +
       " à " +
-      h.value;
+      h;
     fetch("https://api.web3forms.com/submit", {
       method: "POST",
       headers: {

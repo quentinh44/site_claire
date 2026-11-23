@@ -519,35 +519,6 @@ img {
     padding: 0;
     margin-bottom: 8px;
   }
-  .chip {
-    display: inline-block;
-    margin: 0;
-    position: relative;
-  }
-  .chip input {
-    position: absolute;
-    opacity: 0;
-    width: 1px;
-    height: 1px;
-    margin: 0;
-  }
-  .chip span {
-    display: inline-block;
-    padding: 10px 16px;
-    border: 2px solid var(--ac);
-    border-radius: 999px;
-    color: var(--ac);
-    font-weight: 700;
-    cursor: pointer;
-  }
-  .chip input:checked + span {
-    background: var(--ac);
-    color: var(--ax);
-  }
-  .chip input:focus-visible + span {
-    outline: 3px solid var(--ac);
-    outline-offset: 3px;
-  }
   .cons {
     display: flex;
     align-items: flex-start;
@@ -595,4 +566,20 @@ img {
     .dbox {
       padding: 22px 18px;
     }
+}
+/* ===== Liste déroulante (heure) ===== */
+select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--mu);
+  border-radius: 12px;
+  font: inherit;
+  background: var(--cd);
+  color: var(--tx);
+}
+@media (max-width: 760px) {
+  select {
+    font-size: 16px;
+    padding: 14px;
+  }
 }

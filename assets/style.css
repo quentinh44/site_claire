@@ -583,3 +583,12 @@ select {
     padding: 14px;
   }
 }
+/* ===== Agenda Cal.com ===== */
+.calzone {
+  padding: 8px;
+  overflow: hidden;
+  min-height: 420px;
+}
+.note a {
+  color: var(--ac);
+}

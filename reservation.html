@@ -57,58 +57,24 @@
         </div>
       </div>
     </div>
-    <main>
-      <div class="w s col" style="gap: 32px">
+        <main>
+      <div class="w s col" style="gap: 24px">
         <h1>Réserver un créneau</h1>
-        <p class="lead">Trois étapes, puis vous recevez une confirmation.</p>
-        <p class="note">
-          [Version de démonstration : les demandes ne sont pas encore envoyées
-          ni enregistrées.]
+        <p class="lead">
+          Choisissez un créneau libre dans l’agenda. Vous recevez une
+          confirmation par e-mail.
         </p>
-        <div
-          class="g"
-          style="
-            align-items: start;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-          "
-        >
-          <div class="card col" style="gap: 24px">
-            <div>
-              <h3>1. Votre séance</h3>
-              <div class="row" id="bs" style="margin-top: 12px"></div>
-            </div>
-            <div>
-              <h3>2. Un jour</h3>
-              <input
-                id="bdate"
-                type="date"
-                aria-label="Jour souhaité"
-                style="margin-top: 12px; margin-bottom: 0"
-              />
-              <p class="err" id="bdn" role="alert" style ="min-height: 0"></p>
-            </div>
-            <div>
-              <h3>3. Une heure</h3>
-              <select
-                id="bheure"
-                aria-label="Heure souhaitée"
-                style="margin-top: 12px"
-              ></select>
-            </div>
-          </div>
-          <form class="card" id="fr" novalidate>
-            <h3 style="margin-bottom: 16px">Vos informations</h3>
-            <label for="p">Prénom</label
-            ><input id="p" autocomplete="given-name" /><label for="e"
-              >E-mail</label
-            ><input id="e" type="email" autocomplete="email" /><label for="m"
-              >Un mot sur votre situation (facultatif)</label
-            ><textarea id="m" rows="3"></textarea>
-            <p style="margin-bottom: 16px"><b id="rc"></b></p>
-            <button class="btn" type="submit">Confirmer ma demande</button>
-            <p class="ok" id="rm" role="status" style="margin-top: 14px"></p>
-          </form>
-        </div>
+        <div class="card calzone" id="cal-agenda"></div>
+        <noscript>
+          <p>
+            Pour réserver, activez JavaScript ou
+            <a href="https://cal.com/VOTRE-IDENTIFIANT/NOM-EVENEMENT">ouvrez l’agenda sur Cal.com</a>.
+          </p>
+        </noscript>
+        <p class="note">
+          Les nuits à domicile ne se réservent pas en ligne :
+          <a href="contact.html" data-appel>demandez une disponibilité</a>.
+        </p>
       </div>
     </main>
     <footer>
@@ -123,6 +89,7 @@
       </div>
     </footer>
     <script src="assets/app.js" defer></script>
+    <script src="assets/cal.js" defer></script>
     <aside class="bandeau" id="bandeau" aria-label="Appel découverte">
       <p>
         <b>Appel découverte gratuit</b

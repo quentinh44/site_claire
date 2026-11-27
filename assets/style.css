@@ -596,21 +596,15 @@ select {
 .logo {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
   text-decoration: none;
 }
 .logo img {
-  height: 72px;
+  display: block;
+  height: 112px;
   width: auto;
-  padding: 2px;
-  background: #fbf6f0; /* invisible en mode clair, évite que le bleu marine disparaisse en mode sombre */
-  border-radius: 14px;
 }
 @media (max-width: 760px) {
   .logo img {
-    height: 52px;
-  }
-  .logo b {
-    font-size: 19px;
+    height: 80px;
   }
 }

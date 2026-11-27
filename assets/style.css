@@ -487,6 +487,10 @@ img {
     color: var(--tx);
     font-weight: 600;
   }
+  /* Texte court du bandeau, affiché seulement sur mobile */
+  .bandeau .bcourt {
+    display: none;
+  }
   .bandeau .btn {
     min-height: 48px;
     padding: 11px 22px;
@@ -586,8 +590,12 @@ img {
     margin-bottom: 12px;
   }
   @media (max-width: 760px) {
-    .bandeau .bsub {
+    .bandeau .bsub,
+    .bandeau .blong {
       display: none;
+    }
+    .bandeau .bcourt {
+      display: inline;
     }
     .bandeau {
       justify-content: space-between;

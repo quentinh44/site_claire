@@ -600,11 +600,54 @@ select {
 }
 .logo img {
   display: block;
-  height: 112px;
+  height: 140px;
   width: auto;
+}
+.nav {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+main > :first-child {
+  padding-top: 16px; /* réduit l'espace entre l'en-tête et le début de la page */
 }
 @media (max-width: 760px) {
   .logo img {
-    height: 80px;
+    height: 104px;
+  }
+  .nav {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+  main > :first-child {
+    padding-top: 8px;
+  }
+}
+
+/* ===== Menu en bouton « ☰ » dès 980 px (tablettes) ===== */
+@media (max-width: 980px) {
+  .burger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .js .menu {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+  .js .menu.open {
+    display: flex;
+  }
+  .menu a {
+    padding: 14px 4px;
+    border-bottom: 1px solid var(--bd);
+  }
+  .menu a.btn {
+    margin-top: 12px;
+    text-align: center;
+    border: 2px solid var(--ac);
+    padding: 14px;
   }
 }

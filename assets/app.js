@@ -153,6 +153,19 @@ function messageJourFerme() {
   try {
     if (ban && sessionStorage.getItem("bandeau") === "0") ban.hidden = true;
   } catch (e) {}
+  // Si la première section contient déjà un bouton « appel découverte » (page d’accueil),
+  // le bandeau reste caché tant que ce bouton est à l’écran, pour éviter le doublon.
+  // Sur les autres pages, le bandeau est affiché directement.
+  var doublon = document.querySelector("main > :first-child .btn[data-appel]");
+  if (ban) {
+    if ("IntersectionObserver" in window && doublon) {
+      new IntersectionObserver(function (entrees) {
+        ban.classList.toggle("visible", !entrees[0].isIntersecting);
+      }).observe(doublon);
+    } else {
+      ban.classList.add("visible");
+    }
+  }
   var d = document.createElement("dialog");
   d.id = "appel";
   d.setAttribute("aria-labelledby", "atitre");

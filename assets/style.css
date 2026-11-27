@@ -52,6 +52,29 @@ html {
   scroll-padding-top: env(safe-area-inset-top, 0px);
 }
 
+/* Pages courtes : le contenu s’étire pour que le pied de page touche le bas de l’écran */
+body {
+  /* moins les marges d’encoche ajoutées sur :root, pour éviter un défilement inutile */
+  min-height: calc(
+    100vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)
+  );
+  min-height: calc(
+    100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)
+  );
+  display: flex;
+  flex-direction: column;
+}
+
+body > header,
+body > main,
+body > footer {
+  width: 100%;
+}
+
+body > main {
+  flex: 1 0 auto;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -179,6 +202,60 @@ ol.etapes {
 
 ol.etapes > li {
   color: inherit;
+  counter-increment: etape;
+}
+
+ol.etapes {
+  counter-reset: etape;
+}
+
+/* Pastille numérotée devant chaque étape */
+ol.etapes h3 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+ol.etapes h3::before {
+  content: counter(etape);
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--ac);
+  color: var(--ax);
+  font-size: 18px;
+}
+
+/* Texte lu par les lecteurs d’écran mais invisible à l’écran */
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Lien « En savoir plus » aligné en bas des cartes */
+.card:has(> .plus) {
+  display: flex;
+  flex-direction: column;
+}
+
+.plus {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  min-height: 48px;
+  margin-top: auto;
+  padding-top: 8px;
+  color: var(--ac);
+  font-weight: 700;
+  text-underline-offset: 4px;
 }
 
 figure {
@@ -509,8 +586,24 @@ img {
     font-size: 20px;
     cursor: pointer;
   }
-  body:has(.bandeau:not([hidden])) {
-    padding-bottom: 80px;
+  /* Le bandeau n’apparaît qu’une fois la première section dépassée (voir app.js) */
+  .bandeau {
+    transition:
+      transform 0.25s ease,
+      visibility 0.25s;
+  }
+  .js .bandeau:not(.visible) {
+    transform: translateY(100%);
+    visibility: hidden;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bandeau {
+      transition: none;
+    }
+  }
+  /* Place réservée au bandeau dans le pied de page (et non sous lui) */
+  body:has(.bandeau:not([hidden])) footer {
+    padding-bottom: calc(120px + env(safe-area-inset-bottom, 0px));
   }
   dialog {
     border: 0;
@@ -709,10 +802,13 @@ main > :first-child {
   .logo img {
     height: 64px;
   }
-  .bandeau {
+  .bandeau,
+  .js .bandeau:not(.visible) {
     position: static;
+    transform: none;
+    visibility: visible;
   }
-  body:has(.bandeau:not([hidden])) {
-    padding-bottom: 0;
+  body:has(.bandeau:not([hidden])) footer {
+    padding-bottom: 40px;
   }
 }

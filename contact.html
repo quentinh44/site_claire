@@ -42,7 +42,8 @@
     <link rel="stylesheet" href="assets/style.css" />
   </head>
   <body>
-    <div class="w">
+    <a class="skip" href="#contenu">Aller au contenu</a>
+    <header class="w">
       <div class="nav">
         <a href="index.html" class="logo"
           ><picture
@@ -63,17 +64,17 @@
         >
           ☰
         </button>
-        <div class="menu" id="menu">
+        <nav class="menu" id="menu" aria-label="Menu principal">
           <a href="index.html">Accueil</a
           ><a href="qui-suis-je.html">Qui suis-je ?</a
           ><a href="services.html">Services et tarifs</a
           ><a href="temoignages.html">Témoignages</a><a href="faq.html">FAQ</a
-          ><a href="contact.html" class="on">Contact</a
+          ><a href="contact.html" class="on" aria-current="page">Contact</a
           ><a class="btn" href="reservation.html">Réserver</a>
-        </div>
+        </nav>
       </div>
-    </div>
-    <main>
+    </header>
+    <main id="contenu" tabindex="-1">
       <div class="w s">
         <div class="g2" style="align-items: start">
           <div class="col">

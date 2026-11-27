@@ -113,10 +113,20 @@ if (document.getElementById("fc")) {
   var b = document.querySelector(".burger"),
     m = document.getElementById("menu");
   if (!b || !m) return;
-  b.addEventListener("click", function () {
-    var o = m.classList.toggle("open");
+  function basculer(o) {
+    m.classList.toggle("open", o);
     b.setAttribute("aria-expanded", o);
     b.textContent = o ? "✕" : "☰";
+  }
+  b.addEventListener("click", function () {
+    basculer(!m.classList.contains("open"));
+  });
+  // Échap ferme le menu et rend le focus au bouton
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && m.classList.contains("open")) {
+      basculer(false);
+      b.focus();
+    }
   });
 })();
 // ===== Bandeau « appel découverte » et pop-up =====
@@ -138,21 +148,52 @@ var JOURS_FERMES = [0]; // jours non proposés : 0 = dimanche, 6 = samedi
   d.innerHTML =
     '<div class="dbox"><button type="button" class="dclose" aria-label="Fermer">✕</button>' +
     '<div id="av"><h2 id="atitre">Demander un appel découverte gratuit</h2><p>15 minutes pour faire connaissance. Choisissez un créneau : je vous rappelle à ce moment-là.</p>' +
-    '<form id="fa" novalidate><div class="cols"><div><label for="ap">Prénom *</label><input id="ap" autocomplete="given-name"></div>' +
-    '<div><label for="an">Nom *</label><input id="an" autocomplete="family-name"></div></div>' +
-    '<label for="aph">Téléphone *</label><input id="aph" type="tel" inputmode="tel" autocomplete="tel">' +
-    '<label for="ae">E-mail *</label><input id="ae" type="email" autocomplete="email">' +
-    '<label for="ad">Jour souhaité *</label><input id="ad" type="date">' +
-        '<label for="ah">Heure souhaitée *</label><select id="ah" style="margin-bottom:16px"></select>' +
+    '<form id="fa" novalidate><p class="note">Les champs marqués d’un astérisque (*) sont obligatoires.</p>' +
+    '<div class="cols"><div><label for="ap">Prénom *</label><input id="ap" autocomplete="given-name" aria-required="true"></div>' +
+    '<div><label for="an">Nom *</label><input id="an" autocomplete="family-name" aria-required="true"></div></div>' +
+    '<label for="aph">Téléphone *</label><input id="aph" type="tel" inputmode="tel" autocomplete="tel" aria-required="true">' +
+    '<label for="ae">E-mail *</label><input id="ae" type="email" autocomplete="email" aria-required="true">' +
+    '<label for="ad">Jour souhaité *</label><input id="ad" type="date" aria-required="true">' +
+    '<label for="ah">Heure souhaitée *</label><select id="ah" style="margin-bottom:16px" aria-required="true"></select>' +
     '<label for="ac">Commentaire (facultatif)</label><textarea id="ac" rows="3"></textarea>' +
-    '<label class="cons"><input type="checkbox" id="ak"><span>J’accepte que ces informations servent à me recontacter. <a href="mentions-legales.html">Politique de confidentialité</a></span></label>' +
+    '<label class="cons"><input type="checkbox" id="ak" aria-required="true"><span>J’accepte que ces informations servent à me recontacter. <a href="mentions-legales.html">Politique de confidentialité</a></span></label>' +
     '<input type="checkbox" id="abot" tabindex="-1" autocomplete="off" style="display:none">' +
     '<p class="err" id="aerr" role="alert"></p><button class="btn" type="submit" id="asub">Envoyer ma demande</button></form></div>' +
-    '<div id="ao" hidden role="status"><h2>Merci !</h2><p>Votre demande est bien envoyée. Je vous confirme le créneau rapidement par téléphone ou par e-mail.</p><button type="button" class="btn dclose">Fermer</button></div></div>';
+    '<div id="ao" hidden><h2 id="amerci" tabindex="-1">Merci !</h2><p>Votre demande est bien envoyée. Je vous confirme le créneau rapidement par téléphone ou par e-mail.</p><button type="button" class="btn fermer">Fermer</button></div></div>';
   document.body.appendChild(d);
   var $ = function (id) {
     return document.getElementById(id);
   };
+  // Les liens « appel découverte » ouvrent une fenêtre : on le signale aux lecteurs d’écran
+  if (d.showModal) {
+    Array.prototype.forEach.call(
+      document.querySelectorAll("[data-appel]"),
+      function (a) {
+        a.setAttribute("aria-haspopup", "dialog");
+      },
+    );
+  }
+  // Retire les marques d’erreur des champs
+  function effacerErreurs() {
+    $("aerr").textContent = "";
+    Array.prototype.forEach.call(
+      d.querySelectorAll("[aria-invalid]"),
+      function (c) {
+        c.removeAttribute("aria-invalid");
+        c.removeAttribute("aria-describedby");
+      },
+    );
+  }
+  // Affiche l’erreur, la relie au champ concerné et place le focus dessus
+  function erreur(id, msg) {
+    effacerErreurs();
+    $("aerr").textContent = msg;
+    if (id) {
+      $(id).setAttribute("aria-invalid", "true");
+      $(id).setAttribute("aria-describedby", "aerr");
+      $(id).focus();
+    }
+  }
     $("ah").innerHTML =
     '<option value="">Choisir une heure</option>' +
     CRENEAUX.map(function (h) {
@@ -176,7 +217,7 @@ var JOURS_FERMES = [0]; // jours non proposés : 0 = dimanche, 6 = samedi
     $("ad").max = iso(b);
     $("av").hidden = false;
     $("ao").hidden = true;
-    $("aerr").textContent = "";
+    effacerErreurs();
     $("asub").disabled = false;
     $("asub").textContent = "Envoyer ma demande";
     d.showModal();
@@ -188,7 +229,7 @@ var JOURS_FERMES = [0]; // jours non proposés : 0 = dimanche, 6 = samedi
       ouvrir();
       return;
     }
-    if (e.target.closest(".dclose") || e.target === d) d.close();
+    if (e.target.closest(".dclose, .fermer") || e.target === d) d.close();
     if (e.target.closest(".bclose")) {
       ban.hidden = true;
       try {
@@ -209,50 +250,44 @@ var JOURS_FERMES = [0]; // jours non proposés : 0 = dimanche, 6 = samedi
       $("av").hidden = true;
       $("ao").hidden = false;
       f.reset();
+      effacerErreurs();
+      // Le bouton « Envoyer » vient de disparaître : on place le focus sur le message de confirmation
+      $("amerci").focus();
     }
     if ($("abot").checked) {
       fin();
       return;
     }
-    if (!v("ap") || !v("an")) {
-      err.textContent = "Merci d’indiquer votre prénom et votre nom.";
-      return;
-    }
-    if (v("aph").replace(/\D/g, "").length < 9) {
-      err.textContent = "Merci d’indiquer un numéro de téléphone valide.";
-      return;
-    }
-    if (!/^\S+@\S+\.\S+$/.test(v("ae"))) {
-      err.textContent = "Merci d’indiquer une adresse e-mail valide.";
-      return;
-    }
+    if (!v("ap")) return erreur("ap", "Merci d’indiquer votre prénom.");
+    if (!v("an")) return erreur("an", "Merci d’indiquer votre nom.");
+    if (v("aph").replace(/\D/g, "").length < 9)
+      return erreur("aph", "Merci d’indiquer un numéro de téléphone valide.");
+    if (!/^\S+@\S+\.\S+$/.test(v("ae")))
+      return erreur("ae", "Merci d’indiquer une adresse e-mail valide.");
     var jd = v("ad"),
       dt = new Date(jd + "T12:00:00");
-    if (!jd || isNaN(dt) || jd < $("ad").min || jd > $("ad").max) {
-      err.textContent =
-        "Choisissez un jour dans le calendrier (à partir de demain).";
-      return;
-    }
-    if (JOURS_FERMES.indexOf(dt.getDay()) > -1) {
-      err.textContent =
-        "Ce jour n’est pas proposé, merci d’en choisir un autre.";
-      return;
-    }
-    if (!h) {
-      err.textContent = "Choisissez une heure.";
-      return;
-    }
-    if (!$("ak").checked) {
-      err.textContent =
-        "Merci de cocher la case d’accord pour être recontacté(e).";
-      return;
-    }
-    if (WEB3FORMS_KEY.indexOf("VOTRE") === 0) {
-      err.textContent =
-        "Formulaire non configuré : la clé Web3Forms est manquante dans assets/app.js.";
-      return;
-    }
-    err.textContent = "";
+    if (!jd || isNaN(dt) || jd < $("ad").min || jd > $("ad").max)
+      return erreur(
+        "ad",
+        "Choisissez un jour dans le calendrier (à partir de demain).",
+      );
+    if (JOURS_FERMES.indexOf(dt.getDay()) > -1)
+      return erreur(
+        "ad",
+        "Ce jour n’est pas proposé, merci d’en choisir un autre.",
+      );
+    if (!h) return erreur("ah", "Choisissez une heure.");
+    if (!$("ak").checked)
+      return erreur(
+        "ak",
+        "Merci de cocher la case d’accord pour être recontacté(e).",
+      );
+    if (WEB3FORMS_KEY.indexOf("VOTRE") === 0)
+      return erreur(
+        null,
+        "Formulaire non configuré : la clé Web3Forms est manquante dans assets/app.js.",
+      );
+    effacerErreurs();
     btn.disabled = true;
     btn.textContent = "Envoi en cours…";
     var creneau =

@@ -45,7 +45,8 @@
     <link rel="stylesheet" href="assets/style.css" />
   </head>
   <body>
-    <div class="w">
+    <a class="skip" href="#contenu">Aller au contenu</a>
+    <header class="w">
       <div class="nav">
         <a href="index.html" class="logo"
           ><picture
@@ -66,38 +67,38 @@
         >
           ☰
         </button>
-        <div class="menu" id="menu">
+        <nav class="menu" id="menu" aria-label="Menu principal">
           <a href="index.html">Accueil</a
           ><a href="qui-suis-je.html">Qui suis-je ?</a
           ><a href="services.html">Services et tarifs</a
-          ><a href="temoignages.html" class="on">Témoignages</a
+          ><a href="temoignages.html" class="on" aria-current="page">Témoignages</a
           ><a href="faq.html">FAQ</a><a href="contact.html">Contact</a
           ><a class="btn" href="reservation.html">Réserver</a>
-        </div>
+        </nav>
       </div>
-    </div>
-    <main>
+    </header>
+    <main id="contenu" tabindex="-1">
       <div class="w s col" style="gap: 32px">
         <h1>Témoignages</h1>
         <div class="g">
-          <div class="card">
-            <p style="font-size: 18px">« [Avis d’un parent] »</p>
-            <p style="margin-top: 12px; font-weight: 700">
+          <figure class="card">
+            <blockquote><p style="font-size: 18px">« [Avis d’un parent] »</p></blockquote>
+            <figcaption style="margin-top: 12px; font-weight: 700">
               [Prénom], papa de [Prénom]
-            </p>
-          </div>
-          <div class="card">
-            <p style="font-size: 18px">« [Avis d’un parent] »</p>
-            <p style="margin-top: 12px; font-weight: 700">
+            </figcaption>
+          </figure>
+          <figure class="card">
+            <blockquote><p style="font-size: 18px">« [Avis d’un parent] »</p></blockquote>
+            <figcaption style="margin-top: 12px; font-weight: 700">
               [Prénom], maman de [Prénom]
-            </p>
-          </div>
-          <div class="card">
-            <p style="font-size: 18px">« [Avis d’un parent] »</p>
-            <p style="margin-top: 12px; font-weight: 700">
+            </figcaption>
+          </figure>
+          <figure class="card">
+            <blockquote><p style="font-size: 18px">« [Avis d’un parent] »</p></blockquote>
+            <figcaption style="margin-top: 12px; font-weight: 700">
               [Prénom], maman de [Prénom]
-            </p>
-          </div>
+            </figcaption>
+          </figure>
         </div>
       </div>
     </main>

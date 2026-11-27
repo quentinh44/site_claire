@@ -87,7 +87,7 @@ body {
   color: var(--ac);
 }
 
-.nav div {
+.nav .menu {
   display: flex;
   flex-wrap: wrap;
   gap: 8px 18px;
@@ -137,11 +137,56 @@ body {
 
 .btn:focus-visible,
 a:focus-visible,
+button:focus-visible,
 input:focus-visible,
 textarea:focus-visible,
+select:focus-visible,
 summary:focus-visible {
   outline: 3px solid var(--ac);
   outline-offset: 3px;
+}
+
+/* Cibles de focus programmé (lien d’évitement, message de confirmation) */
+main:focus,
+[tabindex="-1"]:focus {
+  outline: none;
+}
+
+/* Lien d’évitement : invisible tant qu’il n’a pas le focus clavier */
+.skip {
+  position: absolute;
+  left: 12px;
+  top: -100px;
+  z-index: 30;
+  padding: 12px 20px;
+  background: var(--ac);
+  color: var(--ax);
+  font-weight: 700;
+  border-radius: 12px;
+  text-decoration: none;
+}
+
+.skip:focus {
+  top: 12px;
+}
+
+/* Listes et citations sans style par défaut */
+ol.etapes {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+ol.etapes > li {
+  color: inherit;
+}
+
+figure {
+  margin: 0;
+}
+
+blockquote {
+  margin: 0;
 }
 
 .card {
@@ -415,7 +460,7 @@ img {
 
   footer a {
     display: inline-block;
-    padding: 8px 0;
+    padding: 13px 0;
   }
   form .btn {
     width: 100%;
@@ -443,8 +488,8 @@ img {
     font-weight: 600;
   }
   .bandeau .btn {
-    min-height: 44px;
-    padding: 10px 22px;
+    min-height: 48px;
+    padding: 11px 22px;
     white-space: nowrap;
   }
   .bclose {
@@ -452,8 +497,8 @@ img {
     right: 8px;
     top: 50%;
     transform: translateY(-50%);
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    height: 48px;
     border: 0;
     background: none;
     color: var(--tx);
@@ -461,7 +506,7 @@ img {
     cursor: pointer;
   }
   body:has(.bandeau:not([hidden])) {
-    padding-bottom: 76px;
+    padding-bottom: 80px;
   }
   dialog {
     border: 0;
@@ -496,8 +541,8 @@ img {
     position: absolute;
     top: 10px;
     right: 10px;
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    height: 48px;
     border: 0;
     background: none;
     color: var(--tx);
@@ -547,7 +592,7 @@ img {
     .bandeau {
       justify-content: space-between;
       gap: 8px;
-      padding: 10px 40px 10px 14px;
+      padding: 10px 52px 10px 14px;
       padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
     }
     .bandeau p {
@@ -559,7 +604,6 @@ img {
       font-size: 14px;
     }
     .bclose {
-      width: 36px;
       right: 2px;
       font-size: 18px;
     }
@@ -649,5 +693,18 @@ main > :first-child {
     text-align: center;
     border: 2px solid var(--ac);
     padding: 14px;
+  }
+}
+
+/* ===== Écrans peu hauts (téléphone à l’horizontale, fort zoom) ===== */
+@media (max-height: 500px) {
+  .logo img {
+    height: 64px;
+  }
+  .bandeau {
+    position: static;
+  }
+  body:has(.bandeau:not([hidden])) {
+    padding-bottom: 0;
   }
 }

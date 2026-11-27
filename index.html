@@ -45,7 +45,8 @@
     <link rel="stylesheet" href="assets/style.css" />
   </head>
   <body>
-    <div class="w">
+    <a class="skip" href="#contenu">Aller au contenu</a>
+    <header class="w">
       <div class="nav">
         <a href="index.html" class="logo"
   ><picture
@@ -65,17 +66,17 @@
         >
           ☰
         </button>
-        <div class="menu" id="menu">
-          <a href="index.html" class="on">Accueil</a
+        <nav class="menu" id="menu" aria-label="Menu principal">
+          <a href="index.html" class="on" aria-current="page">Accueil</a
           ><a href="qui-suis-je.html">Qui suis-je ?</a
           ><a href="services.html">Services et tarifs</a
           ><a href="temoignages.html">Témoignages</a><a href="faq.html">FAQ</a
           ><a href="contact.html">Contact</a
           ><a class="btn" href="reservation.html">Réserver</a>
-        </div>
+        </nav>
       </div>
-    </div>
-    <main>
+    </header>
+    <main id="contenu" tabindex="-1">
       <div class="w s">
         <div class="g2">
           <div class="col" style="gap: 24px">
@@ -126,42 +127,44 @@
       </div>
       <div class="w s col" style="gap: 32px">
         <h2>Comment ça se passe</h2>
-        <div class="g">
-          <div>
+        <ol class="g etapes">
+          <li>
             <h3>1. Appel découverte</h3>
             <p style="margin-top: 8px">
               15 minutes gratuites pour faire connaissance et comprendre vos
               besoins.
             </p>
-          </div>
-          <div>
+          </li>
+          <li>
             <h3>2. Un plan sur mesure</h3>
             <p style="margin-top: 8px">
               Nous choisissons ensemble la formule qui vous convient.
             </p>
-          </div>
-          <div>
+          </li>
+          <li>
             <h3>3. Un suivi à votre rythme</h3>
             <p style="margin-top: 8px">
               Séances en visio ou à domicile, avec un soutien entre les
               rendez-vous.
             </p>
-          </div>
-        </div>
+          </li>
+        </ol>
       </div>
       <div class="s alt">
         <div class="w">
-          <div
+          <figure
             class="card"
             style="max-width: 760px; margin: 0 auto; text-align: center"
           >
-            <p style="font-size: 22px">
-              « [Témoignage d’un parent à ajouter] »
-            </p>
-            <p style="margin-top: 16px; font-weight: 700">
+            <blockquote>
+              <p style="font-size: 22px">
+                « [Témoignage d’un parent à ajouter] »
+              </p>
+            </blockquote>
+            <figcaption style="margin-top: 16px; font-weight: 700">
               [Prénom du parent], maman de [Prénom]
-            </p>
-          </div>
+            </figcaption>
+          </figure>
         </div>
       </div>
       <div class="w s col" style="align-items: center; text-align: center">
